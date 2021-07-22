@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "node ./tools/dev-server.js",
-    "start": "node ./build/server/server.js",
+    "export": "NODE_ENV=production node ./build/server/server.js",
     "build": "NODE_ENV=production node ./tools/build.js",
     "analyze": "NODE_ENV=production ANALYZE=true node ./tools/build.js",
     "format": "prettier --write {src,tools}"
@@ -23,8 +23,7 @@
     "preact": "^10.5.14",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "serialize-javascript": "^6.0.0"
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -44,7 +43,6 @@
     "@types/react-router-dom": "^5.1.8",
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.2",
-    "buffer": "^6.0.3",
     "chalk": "^4.1.1",
     "css-loader": "^5.2.6",
     "friendly-errors-webpack-plugin": "^1.7.0",
