@@ -27,6 +27,10 @@ const routes: Route[] = [
     path: '/404',
     component: importPage('404'),
   },
+  {
+    path: '/nested/page',
+    component: importPage('nested/page'),
+  },
 ];
 
 export default routes;
