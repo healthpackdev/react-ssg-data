@@ -1,6 +1,8 @@
-export const staticRouteData = () => {
+const staticRouteData = () => {
   return {
     data: true,
-    Symbol: Symbol('description'),
+    json: true,
   };
 };
+
+export default staticRouteData;

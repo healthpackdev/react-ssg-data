@@ -1,5 +1,9 @@
-export const staticRouteData = async () => {
+const staticRouteData = async () => {
   return {
-    static: 'yes',
+    example: true,
+    someObject: {
+      example: true,
+    },
   };
 };
+export default staticRouteData;
