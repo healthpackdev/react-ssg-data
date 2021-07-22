@@ -8,7 +8,8 @@ declare global {
   const __CLIENT__: boolean;
 
   interface Window {
-    STATIC_DATA: any;
+    __DATA__: any; // JSON
+    __DATA_CACHE__: Record<string, any /* __DATA__ */>;
   }
 }
 
