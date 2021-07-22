@@ -9,16 +9,13 @@ const isProduction = process.env.NODE_ENV === 'production';
 const config = ({ isServer }) => ({
   mode: isProduction ? 'production' : 'development', // set the mode of build.
   externals: [], // to update config in webpack.server.js send and empty array
-  devtool: false, // I think we are don't need source-maps.
+  devtool: 'source-map', // I think we are don't need source-maps.
   resolve: {
     alias: {
       '@': [root, sourceDir], // add static tsconfig.json/paths
       react: 'preact/compat',
       'react-dom': 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
-    },
-    fallback: {
-      buffer: require.resolve('buffer'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.css'], // allow this modules.
   },
@@ -55,7 +52,7 @@ const config = ({ isServer }) => ({
               ],
             ],
             plugins: [
-              '@babel/plugin-syntax-dynamic-import', // support dynamic imports.
+              '@babel/plugin-syntax-dynamic-import', // support dynamic imports also overrides chunk name.
               '@babel/plugin-transform-runtime', // use @babel/runtime to reduce bundle size.
               '@loadable/babel-plugin', // Loadable-components babel plugin
             ],
