@@ -7,13 +7,13 @@ export interface AppServerProps {
   location: string;
   context: StaticRouterProps['context'];
   extractor: ChunkExtractorManager['props']['extractor'];
-  staticData: any;
+  __DATA__: any;
 }
 // only render in server.
-const AppServer: React.FC<AppServerProps> = ({ location, context, extractor, staticData }) => {
+const AppServer: React.FC<AppServerProps> = ({ location, context, extractor, __DATA__ }) => {
   return (
     <ChunkExtractorManager extractor={extractor}>
-      <DataContext.Provider value={staticData}>
+      <DataContext.Provider value={__DATA__}>
         <StaticRouter location={location} context={context}>
           <App />
         </StaticRouter>

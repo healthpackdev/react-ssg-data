@@ -1,27 +1,32 @@
 import { useEffect, useContext, useState, createContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import serialize from 'serialize-javascript';
-import { UrlToPath } from '../server/routes/utils';
+import { UrlToPath } from '@/lib/utils';
+import { appMountId } from '@/client/constants';
 
-export const DataContext = createContext<{ chunk_name?: string; data?: any }>({});
+export const DataContext = createContext<{ data?: any }>({});
 DataContext.displayName = 'DataContext';
+
+const setAppVisibility = (display) => (document.getElementById(appMountId).style.display = display);
 
 export const useRouteData = () => {
   const [data, setData] = useState(useContext(DataContext).data);
   const location = useLocation();
   useEffect(() => {
-    console.log(location);
-    if (window.STATIC_DATA.page_href !== location.pathname) {
-      document.body.style.display = 'none';
-      fetch(`/static/data/${UrlToPath(location.pathname)}.txt`)
-        .then((res) => res.text())
+    const locationPath = UrlToPath(location.pathname);
+
+    if (window.__DATA__.page_href !== location.pathname) {
+      const cache = window.__DATA_CACHE__[locationPath];
+      if (cache) return setData(cache);
+      setAppVisibility('none');
+      fetch(`/static/data/${locationPath}.json`)
+        .then((res) => res.json())
         .then((dataObject) => {
-          setData(JSON.parse(serialize(dataObject)));
-          document.body.style.display = 'block';
+          if (!cache) window.__DATA_CACHE__[locationPath] = dataObject;
+
+          setData(dataObject);
+          setAppVisibility('block');
         });
     }
   }, [location]);
   return data;
 };
-
-export const staticData = (location: string, data: any) => ({ page_href: location, data });

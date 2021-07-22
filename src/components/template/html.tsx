@@ -1,16 +1,16 @@
 import React from 'react';
 import type { ChunkExtractor } from '@loadable/server';
-import serialize from 'serialize-javascript';
+import { appMountId, dataStoreId } from '@/client/constants';
 
 interface HtmlProps {
   html: string;
   scripts: ReturnType<ChunkExtractor['getScriptElements']>;
   css: JSX.Element;
-  staticData: any;
+  __DATA__: any;
 }
 
 // PureComponent - only render in server.
-const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, staticData }) => {
+const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, __DATA__ }) => {
   return (
     <html>
       <head>
@@ -19,10 +19,12 @@ const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, staticData }
         {css}
       </head>
       <body>
-        <div id="app" dangerouslySetInnerHTML={{ __html: html }} />
+        <div id={appMountId} dangerouslySetInnerHTML={{ __html: html }} />
         <script
+          type="application/json"
+          id={dataStoreId}
           dangerouslySetInnerHTML={{
-            __html: `window.STATIC_DATA = ${serialize(staticData)};`,
+            __html: JSON.stringify(__DATA__),
           }}
         />
         {scripts}
