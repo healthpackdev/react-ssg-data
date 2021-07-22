@@ -1,24 +1,25 @@
 import ReactDOMServer from 'react-dom/server';
 import Html from '@/components/template/html';
 import path from 'path';
-import { clientOutputDir, distDir, loadableStatsFile, pagesDirName } from '@/tools/webpack/paths';
+import { distDir, loadableStatsFile, pagesDirName } from '@/tools/webpack/paths';
 import { ChunkExtractor } from '@loadable/server';
 import clientConfig from '@/tools/webpack/webpack.client';
 import AppServer from '@/components/template/App-server';
 import fp from 'fastify-plugin';
-import { staticData } from '@/lib/use-route-data';
-import { UrlToPath } from '@/server/routes/utils';
+import { UrlToPath, chunkName } from '@/lib/utils';
+import { getData } from '@/server/generate-static';
 
 export const statsFile = path.resolve(distDir, loadableStatsFile);
 
 export type RenderOptions = {
   location: string;
+  __DATA__?: any;
 };
 
-export const render = async ({ location }: RenderOptions) => {
+export const render = async ({ location, __DATA__ }: RenderOptions) => {
   const context = {};
   const locPath = UrlToPath(location);
-  const pageEntry = `${pagesDirName}-${locPath}`;
+  const pageEntry = `${pagesDirName}-${chunkName(locPath)}`;
 
   const extractor = new ChunkExtractor({
     statsFile,
@@ -26,15 +27,16 @@ export const render = async ({ location }: RenderOptions) => {
   });
 
   const css = <style dangerouslySetInnerHTML={{ __html: await extractor.getCssString() }} />;
-  const { staticRouteData } = require(`../data/${locPath}`);
-  const routeData = await staticRouteData();
-  const data = staticData(location, routeData);
+  if (__DEV__) {
+    __DATA__ = await getData(locPath);
+  }
+
   const AppHTML = ReactDOMServer.renderToString(
-    <AppServer staticData={data} location={location} extractor={extractor} context={context} />
+    <AppServer __DATA__={__DATA__} location={location} extractor={extractor} context={context} />
   );
 
   return ReactDOMServer.renderToString(
-    <Html staticData={data} scripts={extractor.getScriptElements()} css={css} html={AppHTML} />
+    <Html __DATA__={__DATA__} scripts={extractor.getScriptElements()} css={css} html={AppHTML} />
   );
 };
 
