@@ -1,5 +1,5 @@
 {
-  "name": "reactify",
+  "name": "react-ssg-starter",
   "version": "1.0.0",
   "types": "index.d.ts",
   "private": true,
@@ -57,5 +57,6 @@
     "webpack-dev-middleware": "^5.0.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-node-externals": "^3.0.0"
-  }
+  },
+  "license": "MIT"
 }
