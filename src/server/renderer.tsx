@@ -19,7 +19,7 @@ export type RenderOptions = {
 export const render = async ({ location, __DATA__ }: RenderOptions) => {
   const context = {};
   const locPath = UrlToPath(location);
-  const pageEntry = `${pagesDirName}-${chunkName(locPath)}`;
+  const pageEntry = `${pagesDirName}-${chunkName(locPath)}`; // pages-nested-page etc.
 
   const extractor = new ChunkExtractor({
     statsFile,
@@ -27,18 +27,22 @@ export const render = async ({ location, __DATA__ }: RenderOptions) => {
   });
 
   const css = <style dangerouslySetInnerHTML={{ __html: await extractor.getCssString() }} />;
+
+  // generate data on every request in dev
   if (__DEV__) {
     __DATA__ = await getData(locPath);
   }
 
+  // render App with data to use in DataContext
   const AppHTML = ReactDOMServer.renderToString(
     <AppServer __DATA__={__DATA__} location={location} extractor={extractor} context={context} />
   );
 
+  // render full html and send it to the client
   return ReactDOMServer.renderToString(
     <Html
       location={location}
-      __DATA__={__DATA__}
+      __DATA__={__DATA__} // pass __DATA__ to use data in application/json script tag
       scripts={extractor.getScriptElements()}
       css={css}
       html={AppHTML}

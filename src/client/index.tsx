@@ -10,8 +10,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 if (__DEV__) {
   require('preact/debug');
 }
+
+// pass an empty object to data cache.
 window.__DATA_CACHE__ = {};
 
+// on loadable ready hydrate the appClient
 loadableReady(() => {
   ReactDOM.hydrate(
     <StrictMode>

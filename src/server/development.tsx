@@ -14,10 +14,14 @@ const fastifyDevelopmentPlugin = fb(
   (fastify: FastifyInstance, opts, done) => {
     fastify.register(middiePlugin).then(() => {
       const clientCompiler = webpack(clientConfig as webpack.Configuration);
+
+      // disable logs, writeToDisk - loadable-components need to see files.
       const webpackDevMiddleware = require('webpack-dev-middleware')(clientCompiler, {
         stats: false,
         writeToDisk: true,
       });
+
+      // disable logs, hearbeat every 5 seconds.
       const webpackHotMiddleware = require('webpack-hot-middleware')(clientCompiler, {
         log: false,
         heartbeat: 5000,
@@ -36,6 +40,8 @@ const developmentMode = async (app: FastifyInstance) => {
   await app.register(fastifyDevelopmentPlugin);
   app.get('*', (req, res) => {
     log.info(`GET ${chalk.magenta(req.url)}`);
+
+    // if req.url doesn't match any route, render 404 page.
     if (
       !routes.some((route) =>
         matchPath(req.url, { path: route.path, exact: route.exact, strict: true })
@@ -47,6 +53,7 @@ const developmentMode = async (app: FastifyInstance) => {
     res.render({ location: req.url });
   });
 
+  // get static data. of page_path
   app.get(`/static/data/:page_path.json`, async (req, res) => {
     //@ts-ignore
     const dataObject = await getData(req.params.page_path);
