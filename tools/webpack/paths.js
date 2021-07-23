@@ -27,7 +27,6 @@ module.exports.pagesDirName = pagesDirName;
 module.exports.loadableStatsFile = 'build-manifest.json';
 module.exports.routeManifestFile = 'route-manifest.json';
 
-module.exports.staticDataURL = '/static/data';
 module.exports.staticDataDist = path.resolve(clientOutputDir, datasDirName);
 
 module.exports.serverEntry = path.resolve(sourceDirName, serverDirName, 'index.tsx');
