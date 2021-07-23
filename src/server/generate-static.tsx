@@ -11,10 +11,6 @@ import { render } from '@/server/renderer';
 import { UrlToPath } from '@/lib/utils';
 import { writeFile } from '@/server/utils';
 
-const mkdirExist = (dirPath) => {
-  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
-};
-
 export const getData = async (dataPath) => {
   let generateFunction;
   try {
