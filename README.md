@@ -1,3 +1,8 @@
+<p align="center">
+<a href="https://vercel.com/new/git/external?repository-url=https://github.com/healthpackdev/react-ssg-data"><img alt="deploy with vercel" src="https://vercel.com/button"></a>
+ <a href="https://app.netlify.com/start/deploy?repository=https://github.com/healthpackdev/react-ssg-data"><img alt="deploy with netlify" src="https://www.netlify.com/img/deploy/button.svg"></a>
+</p>
+
 # react-ssg-data
 
 this an example with react-router-dom in **Static site generation**
