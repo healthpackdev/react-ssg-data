@@ -4,7 +4,6 @@ import type { FastifyInstance } from 'fastify';
 import middiePlugin from 'middie';
 import fb from 'fastify-plugin';
 import { fastifyRenderPlugin } from '@/server/renderer';
-import { staticDataURL } from '@/tools/webpack/paths';
 import routes from '@/routes';
 import chalk from 'chalk';
 import log from '@/tools/logger';
@@ -21,8 +20,7 @@ const fastifyDevelopmentPlugin = fb(
       });
       const webpackHotMiddleware = require('webpack-hot-middleware')(clientCompiler, {
         log: false,
-        heartbeat: 2000,
-        path: '/static',
+        heartbeat: 5000,
       });
       fastify.use(webpackDevMiddleware);
       fastify.use(webpackHotMiddleware);
@@ -49,7 +47,7 @@ const developmentMode = async (app: FastifyInstance) => {
     res.render({ location: req.url });
   });
 
-  app.get(`${staticDataURL}/:page_path.json`, async (req, res) => {
+  app.get(`/static/data/:page_path.json`, async (req, res) => {
     //@ts-ignore
     const dataObject = await getData(req.params.page_path);
 
