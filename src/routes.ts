@@ -13,6 +13,7 @@ const importPage = (path: string = '', opts: OptionsWithoutResolver<unknown> = {
   return loadable(() => import(`@/pages/${path}`).then((mod) => mod.default), opts);
 };
 
+// currently params doesn't supporting.
 const routes: Route[] = [
   {
     path: '/',
