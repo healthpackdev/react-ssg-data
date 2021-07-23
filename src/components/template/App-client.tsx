@@ -3,9 +3,11 @@ import App from '@/components/template/App';
 import { DataContext } from '@/lib/use-route-data';
 import { dataStoreId } from '@/client/constants';
 
+const __DATA__ = JSON.parse(window.__DATA__.textContent);
+
 // only render in client.
 const AppClient: React.FC = () => (
-  <DataContext.Provider value={{ data: window[dataStoreId] }}>
+  <DataContext.Provider value={__DATA__}>
     <BrowserRouter>
       <App />
     </BrowserRouter>

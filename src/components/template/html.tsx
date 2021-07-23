@@ -6,11 +6,12 @@ interface HtmlProps {
   html: string;
   scripts: ReturnType<ChunkExtractor['getScriptElements']>;
   css: JSX.Element;
+  location: string;
   __DATA__: any;
 }
 
 // PureComponent - only render in server.
-const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, __DATA__ }) => {
+const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, location, __DATA__ }) => {
   return (
     <html>
       <head>
@@ -21,10 +22,10 @@ const Html: React.FC<HtmlProps> = React.memo(({ html, scripts, css, __DATA__ }) 
       <body>
         <div id={appMountId} dangerouslySetInnerHTML={{ __html: html }} />
         <script
-          type="application/json"
           id={dataStoreId}
+          type="application/json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(__DATA__),
+            __html: JSON.stringify({ location, data: __DATA__ }),
           }}
         />
         {scripts}

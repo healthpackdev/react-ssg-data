@@ -3,30 +3,35 @@ import { useLocation } from 'react-router-dom';
 import { UrlToPath } from '@/lib/utils';
 import { appMountId } from '@/client/constants';
 
-export const DataContext = createContext<{ data?: any }>({});
+export const DataContext = createContext<{ location?: string; data?: any }>({});
 DataContext.displayName = 'DataContext';
 
 const setAppVisibility = (display) => (document.getElementById(appMountId).style.display = display);
 
-export const useRouteData = () => {
-  const [data, setData] = useState(useContext(DataContext).data);
+export const useRouteData = <IData = any>(): IData => {
+  const __DATA__ = useContext(DataContext);
+  const [data, setData] = useState(__DATA__.data);
+
   const location = useLocation();
+
   useEffect(() => {
     const locationPath = UrlToPath(location.pathname);
 
-    if (window.__DATA__.page_href !== location.pathname) {
-      const cache = window.__DATA_CACHE__[locationPath];
-      if (cache) return setData(cache);
-      setAppVisibility('none');
-      fetch(`/static/data/${locationPath}.json`)
-        .then((res) => res.json())
-        .then((dataObject) => {
-          if (!cache) window.__DATA_CACHE__[locationPath] = dataObject;
+    const cache = window.__DATA_CACHE__[locationPath];
+    if (cache) return setData(cache);
+    setAppVisibility('none');
+    fetch(`/static/data/${locationPath}.json`)
+      .then((res) => res.json())
+      .then((dataObject) => {
+        if (!cache) window.__DATA_CACHE__[locationPath] = dataObject;
 
-          setData(dataObject);
-          setAppVisibility('block');
-        });
-    }
+        setData(dataObject);
+        setAppVisibility('block');
+      });
   }, [location]);
-  return data;
+  if (location.pathname === __DATA__.location) {
+    return __DATA__.data;
+  } else {
+    return data;
+  }
 };

@@ -13,7 +13,7 @@ export interface AppServerProps {
 const AppServer: React.FC<AppServerProps> = ({ location, context, extractor, __DATA__ }) => {
   return (
     <ChunkExtractorManager extractor={extractor}>
-      <DataContext.Provider value={__DATA__}>
+      <DataContext.Provider value={{ data: __DATA__, location }}>
         <StaticRouter location={location} context={context}>
           <App />
         </StaticRouter>

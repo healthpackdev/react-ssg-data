@@ -36,7 +36,13 @@ export const render = async ({ location, __DATA__ }: RenderOptions) => {
   );
 
   return ReactDOMServer.renderToString(
-    <Html __DATA__={__DATA__} scripts={extractor.getScriptElements()} css={css} html={AppHTML} />
+    <Html
+      location={location}
+      __DATA__={__DATA__}
+      scripts={extractor.getScriptElements()}
+      css={css}
+      html={AppHTML}
+    />
   );
 };
 
