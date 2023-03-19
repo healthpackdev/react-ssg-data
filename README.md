@@ -1,3 +1,21 @@
+# Developers
+<table>
+   <tr>
+      <td align="center"><a href="https://github.com/healthpackdev">
+        <img src="https://github.com/healthpackdev.png?size=100" width="100px;" alt=""/>
+        <br />
+        <sub><b>Yasin</b></sub></a><br />
+     </td>
+      <td align="center"><a href="https://github.com/tunardev">
+        <img src="https://github.com/tunardev.png?size=100" width="100px;" alt=""/>
+        <br />
+        <sub><b>Tunar</b></sub></a><br />
+     </td>
+   </tr>
+</table>
+
+<br />
+
 <p align="center">
 <a href="https://vercel.com/new/git/external?repository-url=https://github.com/healthpackdev/react-ssg-data"><img alt="deploy with vercel" src="https://vercel.com/button"></a>
  <a href="https://app.netlify.com/start/deploy?repository=https://github.com/healthpackdev/react-ssg-data"><img alt="deploy with netlify" src="https://www.netlify.com/img/deploy/button.svg"></a>
